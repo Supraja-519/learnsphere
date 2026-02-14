@@ -1,0 +1,9 @@
+
+flask
+python-dotenv
+groq
+markdown
+emoji
+flask-sqlalchemy
+flask-login
+flask-bcrypt

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - ML Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Reuse styles from login for consistency */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 24px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-card h1 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .auth-input:focus {
+            border-color: #38bdf8;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            color: #fff;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .auth-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .auth-link {
+            display: block;
+            margin-top: 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .auth-link:hover {
+            color: #fff;
+        }
+
+        .flash-message {
+            background: rgba(248, 113, 113, 0.2);
+            border: 1px solid rgba(248, 113, 113, 0.5);
+            color: #fca5a5;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <div class="background-globes">
+        <div class="globe globe-1" style="background: #38bdf8; bottom: -100px; left: -100px;"></div>
+        <div class="globe globe-2"></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Join the Quest</h1>
+
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="/signup">
+                <input type="text" name="username" class="auth-input" placeholder="Choose a Username" required
+                    autocomplete="off">
+                <input type="password" name="password" class="auth-input" placeholder="Create a Password" required>
+                <button type="submit" class="auth-btn">Create Account</button>
+            </form>
+            <a href="/login" class="auth-link">Already have an account? <b>Login</b></a>
+        </div>
+    </div>
+</body>
+
+</html>

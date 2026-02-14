@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Quest: The Joyful Path to AI Mastery</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Highlight.js for code blocks -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- Simple Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body class="dark-theme">
+
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <!-- Gamification HUD -->
+    <div class="hud-container">
+        <div class="hud-item user-badge">
+            <i class="fa-solid fa-user-astronaut"></i>
+            <span>{{ user.username }}</span>
+        </div>
+        <div class="hud-item xp-badge">
+            <i class="fa-solid fa-bolt"></i>
+            <span id="xp-display">{{ user.xp }} XP</span>
+        </div>
+        <div class="hud-item streak-badge">
+            <i class="fa-solid fa-fire"></i>
+            <span id="streak-display">{{ user.streak }} Day Streak</span>
+        </div>
+        <a href="/logout" class="hud-item logout-badge" style="text-decoration: none; color: inherit;">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Master Machine Learning <span class="highlight-text">Joyfully</span></h1>
+            <p>From zero to ML Engineer. Interactive. Visual. Fun.</p>
+        </div>
+    </header>
+
+    <main class="roadmap-container">
+        <!-- Roadmap Levels -->
+        {% for level in roadmap %}
+        <section class="level_section" id="level-{{ level.id }}">
+            <h2 class="level-title">{{ level.title }}</h2>
+            <div class="nodes-wrapper">
+                {% for node in level.nodes %}
+                <div class="node-card {% if node.id in completed_nodes %}completed{% endif %}"
+                    data-node-id="{{ node.id }}" data-node-title="{{ node.title }}">
+                    <div class="node-icon">
+                        <i
+                            class="fa-solid {% if node.id in completed_nodes %}fa-check-circle{% else %}fa-brain{% endif %}"></i>
+                    </div>
+                    <div class="node-info">
+                        <h3>{{ node.title }}</h3>
+                        <p>{{ node.description }}</p>
+                    </div>
+                    <div class="node-status">
+                        <i class="fa-solid {% if node.id in completed_nodes %}fa-check{% else %}fa-lock{% endif %}"></i>
+                    </div>
+                </div>
+                {% if not loop.last %}
+                <div class="connector-line"></div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+    </main>
+
+    <!-- Learning Modal -->
+    <div id="learning-modal" class="modal hidden">
+        <div class="modal-content glass-panel">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h2 id="modal-title">Concept Title</h2>
+                <div class="modal-tabs">
+                    <button class="tab-btn active" data-mode="eli5"><i class="fa-solid fa-child"></i> ELI5</button>
+                    <button class="tab-btn" data-mode="theory"><i class="fa-solid fa-book-open"></i> Deep
+                        Theory</button>
+                    <button class="tab-btn" data-mode="visual"><i class="fa-solid fa-eye"></i> Visuals</button>
+                    <button class="tab-btn" data-mode="code"><i class="fa-solid fa-code"></i> Code</button>
+                    <button class="tab-btn" data-mode="audio"><i class="fa-solid fa-headphones"></i> Audio</button>
+                </div>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <div class="loader-container hidden">
+                    <div class="spinner"></div>
+                    <p>Summoning AI Wizardry...</p>
+                </div>
+                <div class="content-display markdown-body">
+                    <!-- Dynamic Content -->
+                    <p>Select a mode to start learning!</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="complete-btn" id="mark-complete-btn">Mark as Learned (+50 XP)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
